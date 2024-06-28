@@ -22,7 +22,7 @@ struct SwiftSite: Website {
     }
 
     // Update these properties to configure your website:
-    var url = URL(string: "https://bii-08.github.io/")!
+    var url = URL(string: "https://your-website-url.com")!
     var title = "Home"
     var name = "Tam Luu"
     var description = "iOS Developer"
