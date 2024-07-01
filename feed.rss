@@ -1,1 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Home</title><description>iOS Developer</description><link>https://bii-08.github.io</link><language>en</language><lastBuildDate>Sat, 29 Jun 2024 20:33:45 +1000</lastBuildDate><pubDate>Sat, 29 Jun 2024 20:33:45 +1000</pubDate><ttl>250</ttl><atom:link href="https://bii-08.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://bii-08.github.io/posts/first-post</guid><title>My first post</title><description>A description of my first post.</description><link>https://bii-08.github.io/posts/first-post</link><pubDate>Thu, 27 Jun 2024 14:47:00 +1000</pubDate><content:encoded><![CDATA[<h1>My first post</h1><p>My first post's text. csavkdjhsakjvhkhdaskvhjkdshvkjhasjkh</p>]]></content:encoded></item><item><guid isPermaLink="true">https://bii-08.github.io/posts/second-post</guid><title>My second post</title><description>A description of my second post.</description><link>https://bii-08.github.io/posts/second-post</link><pubDate>Thu, 27 Jun 2024 14:47:00 +1000</pubDate><content:encoded><![CDATA[<h1>My second post</h1><p>My second post's text.</p><p>djksahfkhkdsahkhdlsalflj</p>]]></content:encoded></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Tam Luu</title><description>iOS Developer</description><link>https://bii-08.github.io</link><language>en</language><lastBuildDate>Mon, 1 Jul 2024 10:14:48 +1000</lastBuildDate><pubDate>Mon, 1 Jul 2024 10:14:48 +1000</pubDate><ttl>250</ttl><atom:link href="https://bii-08.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://bii-08.github.io/posts/first-post</guid><title>How to call APIs using async/await in SwiftUI</title><description>In this article, we explore async/await in Swift 5.5, showing how it simplifies asynchronous code. Through a simple example of fetching data from a URL in a SwiftUI view, you'll see how modern Swift concurrency makes your code more readable, robust, and maintainable. Whether you're a seasoned developer or new to Swift, this guide will help you effectively use async/await in your SwiftUI projects.</description><link>https://bii-08.github.io/posts/first-post</link><pubDate>Sun, 30 Jun 2024 14:47:00 +1000</pubDate><content:encoded><![CDATA[<h2><code>Async/await</code> in Swift</h2><p><code>Async/await</code> is a modern Swift feature introduced in Swift 5.5 (WWDC 2021) that handles asynchronous operations more cleanly. By marking your function as <span style="color:violet">async</span> and using the <span style="color:violet">await</span> keyword when calling other asynchronous functions, you can streamline your asynchronous code.</p><h2>Fetching Data Asynchronously in SwiftUI</h2><p>Let's say you want to fetch recipe data from a URL whenever the view appears. Here’s how you can achieve that using <code>async/await</code>.</p><h3><strong><em>Step 1: Define your model</em></strong></h3><p>First, define a model to represent the recipe data.</p><pre><code><span class="comment">// Recipe model</span>
+<span class="keyword">struct</span> Recipe: <span class="type">Codable</span> {
+   <span class="keyword">var</span> name: <span class="type">String</span>
+   <span class="keyword">var</span> ingredients: [<span class="type">String</span>]
+   <span class="keyword">var</span> instruction: <span class="type">String</span>
+}
+</code></pre><h3><strong><em>Step 2: Create a Recipe fetching function</em></strong></h3><p>Next, define an asynchronous function to fetch the recipe from a URL.</p><pre><code><span class="comment">// Asynchronous function to fetch data</span>
+<span class="keyword">func</span> fetchRecipe() <span class="keyword">async throws</span> -&gt; <span class="type">Recipe</span> {
+   <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"https://recipe.com/recipes"</span>)!
+   <span class="keyword">let</span> request = <span class="type">URLRequest</span>(url: url)
+   <span class="keyword">let</span> (data, <span class="keyword">_</span>) = <span class="keyword">try await</span> <span class="type">URLSession</span>.<span class="property">shared</span>.<span class="call">data</span>(for: request)
+   <span class="keyword">let</span> recipe = <span class="keyword">try</span> <span class="type">JSONDecoder</span>().<span class="call">decode</span>(<span class="type">Recipe</span>.<span class="keyword">self</span>, from: data)
+   <span class="keyword">return</span> recipe
+}
+</code></pre><h3><strong><em>Step 3: Execute the asynchronous function</em></strong></h3><p>To execute an asynchronous function in SwiftUI, you need to call the function from a context that supports asynchronous execution, such as within the <code>onAppear</code> modifier using <code>Task</code>. This creates an asynchronous context to call the await function.</p><pre><code><span class="comment">// SwiftUI View</span>
+<span class="keyword">import</span> SwiftUI
+
+<span class="keyword">struct</span> RecipeView: <span class="type">View</span> {
+    <span class="keyword">@State private var</span> recipe: <span class="type">Recipe</span>?
+    <span class="keyword">@State private var</span> isLoading = <span class="keyword">false
+    
+    var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
+        <span class="type">ScrollView</span> {
+            <span class="keyword">if</span> isLoading {
+                <span class="type">ProgressView</span>()
+            } <span class="keyword">else</span> {
+                <span class="keyword">if let</span> recipe = recipe {
+                    <span class="type">Text</span>(recipe.<span class="property">name</span>)
+                    <span class="type">ForEach</span>(recipe.<span class="property">ingredients</span>.<span class="property">indices</span>, id: \.<span class="keyword">self</span>) { index <span class="keyword">in</span>
+                        <span class="type">VStack</span>(alignment: .<span class="dotAccess">leading</span>, spacing: <span class="number">8</span>) {
+                            <span class="type">Text</span>(recipe.<span class="property">ingredients</span>[index])
+                        }
+                    }
+                    <span class="type">Text</span>(recipe.<span class="property">instruction</span>)
+                } <span class="keyword">else</span> {
+                    <span class="type">Text</span>(<span class="string">"No recipe loaded"</span>)
+                }
+            }
+        }
+        .<span class="call">onAppear</span> {
+            <span class="type">Task</span> {
+                isLoading = <span class="keyword">true
+                do</span> {
+                    recipe = <span class="keyword">try await</span> <span class="call">fetchRecipe</span>()
+                } <span class="keyword">catch</span> {
+                    <span class="call">print</span>(<span class="string">"Error fetching recipe:</span> \(error)<span class="string">"</span>)
+                }
+                isLoading = <span class="keyword">false</span>
+            }
+        }
+    }
+}
+</code></pre><h2>Explanation</h2><ul><li><code>Async/await</code> in Swift: The <code>async</code> keyword marks a function as asynchronous, while the <code>await</code> keyword is used to call asynchronous functions. This makes the code easier to read and maintain compared to traditional completion handler-based asynchronous code. <br /></li><li>SwiftUI and Asynchronous Tasks: In SwiftUI, you can use the <code>Task</code> initializer within the <code>onAppear</code> modifier to create an asynchronous context. This allows you to call <code>await</code> functions safely when the view appears. <br /></li><li>Error Handling: Using <code>do-catch</code> blocks within the <code>Task</code> helps manage any errors that might occur during the data fetching process. <br /></li></ul><p>This example demonstrates how <code>async/await</code> in Swift can make asynchronous code more readable and intuitive, especially in the context of SwiftUI. <br /> By using modern Swift concurrency, developers can write code that is more robust and maintainable, simplifying complex tasks like networking and making them more straightforward and enjoyable to implement.</p>]]></content:encoded></item></channel></rss>

@@ -259,9 +259,14 @@ h6 {
     }
     
     .top-header {
-        position: fill;
+        position: fixed;
         top: 0em;
         background: #FFF;
+        z-index: 1000;
+        padding: 20px 0;
+    }
+    body {
+        padding-top: 60px;
     }
 }
 
