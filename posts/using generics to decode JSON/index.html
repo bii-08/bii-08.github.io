@@ -52,7 +52,7 @@
 }
 </code></pre><p>Our structs both conform to <code>Codable</code>, which is a protocol that allow us to decode JSON into our <code>Class</code>, and <code>Student</code> model types. Here's how you can write a generic function to handle this:</p><pre><code><span class="keyword">struct</span> DataManager {
 
-   <span class="keyword">static func</span> decode&lt;T: <span class="type">Codable</span>&gt;(file: <span class="type">String</span>, type: <span class="type">T</span>) -&gt; <span class="type">T</span>? {
+   <span class="keyword">static func</span> decode&lt;T: <span class="type">Codable</span>&gt;(file: <span class="type">String</span>, type: <span class="type">T</span>.<span class="type">Type</span>) -&gt; <span class="type">T</span>? {
       <span class="keyword">guard let</span> path = <span class="type">Bundle</span>.<span class="property">main</span>.<span class="call">path</span>(forResource: file, type: <span class="string">"json"</span>) <span class="keyword">else</span> {
          <span class="call">fatalError</span>(<span class="string">"Failed to find this</span> \(file)<span class="string">."</span>)
      }
