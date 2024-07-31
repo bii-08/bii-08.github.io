@@ -8,7 +8,7 @@
 // Numeric: a type constraint that requires T to conform to the Numeric protocol.</span>
 </code></pre><p>In the two examples below, T is inferred to be Int and Double, respectively:</p><pre><code><span class="keyword">let</span> intCalculation = <span class="call">add</span>(<span class="number">2</span>,<span class="number">3</span>) <span class="comment">// 5</span>
 <span class="keyword">let</span> doubleCalculation = <span class="call">add</span>(<span class="number">5.2</span>, <span class="number">3.6</span>) <span class="comment">// 8.8</span>
-</code></pre><h2>Using Generic functions to Decode JSON</h2><p>Let's say we have two different JSON files. One file contains chemistry class information, and the other file contains details of a student in that class.</p><pre><code><span class="comment">// Chemistry-Class-info.json</span>
+</code></pre><h2>Using Generic Functions to Decode JSON</h2><p>Let's say we have two different JSON files. One file contains chemistry class information, and the other file contains details of a student in that class.</p><pre><code><span class="comment">// Chemistry-Class-info.json</span>
 {
     <span class="string">"class"</span>: <span class="string">"chemistry"</span>,
     <span class="string">"teacher"</span>: <span class="string">"Heisenberg"</span>,
@@ -52,7 +52,7 @@
     <span class="keyword">let</span> firstName: <span class="type">String</span>
     <span class="keyword">let</span> lastName: <span class="type">String</span>
 }
-</code></pre><p>Our structs both conform to <code>Codable</code>, which is a protocol that allow us to decode JSON into our <code>Class</code>, and <code>Student</code> model types. Here's how you can write a generic function to handle this:</p><pre><code><span class="keyword">struct</span> DataManager {
+</code></pre><p>Our structs both conform to <code>Codable</code>, which is a protocol that allows us to decode JSON into our <code>Class</code>, and <code>Student</code> model types. Here's how you can write a generic function to handle this:</p><pre><code><span class="keyword">struct</span> DataManager {
 
    <span class="keyword">static func</span> decode&lt;T: <span class="type">Codable</span>&gt;(file: <span class="type">String</span>, type: <span class="type">T</span>.<span class="type">Type</span>) -&gt; <span class="type">T</span>? {
       <span class="keyword">guard let</span> path = <span class="type">Bundle</span>.<span class="property">main</span>.<span class="call">path</span>(forResource: file, type: <span class="string">"json"</span>) <span class="keyword">else</span> {
@@ -72,7 +72,7 @@
      }
    }
 }
-</code></pre><p>Now we can use this function to decode these JSON files to the type that we pass in (in this case, <code>Class</code> and <code>Student</code>). Note: Make sure you don't misspell the file names.</p><pre><code><span class="keyword">var</span> chemistryClass: <span class="type">Class</span>?
+</code></pre><p>Now we can use this function to decode these JSON files to the types that we pass in (in this case, <code>Class</code> and <code>Student</code>). Note: Make sure you don't misspell the file names.</p><pre><code><span class="keyword">var</span> chemistryClass: <span class="type">Class</span>?
 <span class="keyword">var</span> student: <span class="type">Student</span>?
 
 chemistryClass = <span class="keyword">try</span>? <span class="type">DataManager</span>.<span class="call">decode</span>(file: <span class="string">"Chemistry-Class-info"</span>, type: <span class="type">Class</span>.<span class="keyword">self</span>)
@@ -85,4 +85,4 @@ student = <span class="keyword">try</span>? <span class="type">DataManager</span
 <span class="keyword">if let</span> student = student {
    <span class="call">print</span>(<span class="string">"Student:</span> \(student.<span class="property">firstName</span>)<span class="string">"</span>)  <span class="comment">// Student: Jesse</span>
 }
-</code></pre><p>That's it. Now you know how to decode JSON using generic in Swift. This approach not only makes your code more reusable and easier to maintain but also leverages the power of Swift's type system to ensure safety and clarity.</p></div></div></div><div class="footer pure-u-1"><div class="pure-u-1">© 2024 Tam Luu</div><div class="pure-u-1"> Written in Swift. Generated using <a href="https://github.com/johnsundell/publish">Publish</a></div><div class="pure-u-1"><a href="/feed.rss">RSS feed</a></div></div></div></body></html>
+</code></pre><p>That's it! Now you know how to decode JSON using generics in Swift. This approach not only makes your code more reusable and easier to maintain but also leverages the power of Swift's type system to ensure type safety and clarity.</p></div></div></div><div class="footer pure-u-1"><div class="pure-u-1">© 2024 Tam Luu</div><div class="pure-u-1"> Written in Swift. Generated using <a href="https://github.com/johnsundell/publish">Publish</a></div><div class="pure-u-1"><a href="/feed.rss">RSS feed</a></div></div></div></body></html>
