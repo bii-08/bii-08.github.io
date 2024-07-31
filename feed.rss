@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Tam Luu</title><description>iOS Developer</description><link>https://bii-08.github.io</link><language>en</language><lastBuildDate>Wed, 31 Jul 2024 00:27:18 +1000</lastBuildDate><pubDate>Wed, 31 Jul 2024 00:27:18 +1000</pubDate><ttl>250</ttl><atom:link href="https://bii-08.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://bii-08.github.io/posts/using%20generics%20to%20decode%20JSON</guid><title>Using Generics to Decode JSON in Swift</title><description>Generics enable you to write flexible and reusable functions and types, helping you avoid duplication and making your code more readable.</description><link>https://bii-08.github.io/posts/using%20generics%20to%20decode%20JSON</link><pubDate>Tue, 30 Jul 2024 14:47:00 +1000</pubDate><content:encoded><![CDATA[<p>Generics are one of the most powerful features of Swift, and much of the Swift standard library is built with generic code.</p><h2>Generic Functions</h2><p>Generic functions can work with any type. Here is a non-generic function that adds two integer values together and then return the result:</p><pre><code><span class="keyword">func</span> add(<span class="keyword">_</span> firstValue: <span class="type">Int</span>, <span class="keyword">_</span> secondValue: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Tam Luu</title><description>iOS Developer</description><link>https://bii-08.github.io</link><language>en</language><lastBuildDate>Wed, 31 Jul 2024 12:00:00 +1000</lastBuildDate><pubDate>Wed, 31 Jul 2024 12:00:00 +1000</pubDate><ttl>250</ttl><atom:link href="https://bii-08.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://bii-08.github.io/posts/using%20generics%20to%20decode%20JSON</guid><title>Using Generics to Decode JSON in Swift</title><description>Generics enable you to write flexible and reusable functions and types, helping you avoid duplication and making your code more readable.</description><link>https://bii-08.github.io/posts/using%20generics%20to%20decode%20JSON</link><pubDate>Tue, 30 Jul 2024 14:47:00 +1000</pubDate><content:encoded><![CDATA[<p>Generics are one of the most powerful features of Swift, and much of the Swift standard library is built with generic code. By using generics, you can write flexible and reusable functions and types that help you avoid duplication and make your code more readable.</p><h2>Generic Functions</h2><p>Generic functions can work with any type. Here is a non-generic function that adds two integer values together and then returns the result:</p><pre><code><span class="keyword">func</span> add(<span class="keyword">_</span> firstValue: <span class="type">Int</span>, <span class="keyword">_</span> secondValue: <span class="type">Int</span>) -&gt; <span class="type">Int</span> {
      firstValue + secondValue
 }
-</code></pre><p>But what if we want to have a function that performs this kind of calculation on any type of values, rather than just integers? Here is the generic function:</p><pre><code><span class="keyword">func</span> add&lt;T: <span class="type">Numeric</span>&gt;(<span class="keyword">_</span> firstValue: <span class="type">T</span>, <span class="keyword">_</span> secondValue: <span class="type">T</span>) -&gt; <span class="type">T</span> {
+</code></pre><p>But what if we want to have a function that performs this kind of calculation on any type of values, rather than just integers? Here is a generic function:</p><pre><code><span class="keyword">func</span> add&lt;T: <span class="type">Numeric</span>&gt;(<span class="keyword">_</span> firstValue: <span class="type">T</span>, <span class="keyword">_</span> secondValue: <span class="type">T</span>) -&gt; <span class="type">T</span> {
      firstValue + secondValue
 }
 <span class="comment">// &lt;T&gt;: is a placeholder type inside angle brackets.
 // Numeric: a type constraint that requires T to conform to the Numeric protocol.</span>
-</code></pre><p>In the two examples below, T is inferred to be Int and Double respectively:</p><pre><code><span class="keyword">let</span> intCalculation = <span class="call">add</span>(<span class="number">2</span>,<span class="number">3</span>) <span class="comment">// 5</span>
+</code></pre><p>In the two examples below, T is inferred to be Int and Double, respectively:</p><pre><code><span class="keyword">let</span> intCalculation = <span class="call">add</span>(<span class="number">2</span>,<span class="number">3</span>) <span class="comment">// 5</span>
 <span class="keyword">let</span> doubleCalculation = <span class="call">add</span>(<span class="number">5.2</span>, <span class="number">3.6</span>) <span class="comment">// 8.8</span>
-</code></pre><h2>Using Generic functions to Decode JSON</h2><p>Let's say we have 2 different JSON files. One file contains chemistry class information and the other file contains details of a student in that class.</p><pre><code><span class="comment">// Chemistry-Class-info.json</span>
+</code></pre><h2>Using Generic functions to Decode JSON</h2><p>Let's say we have two different JSON files. One file contains chemistry class information, and the other file contains details of a student in that class.</p><pre><code><span class="comment">// Chemistry-Class-info.json</span>
 {
     <span class="string">"class"</span>: <span class="string">"chemistry"</span>,
     <span class="string">"teacher"</span>: <span class="string">"Heisenberg"</span>,
@@ -38,9 +38,10 @@
    <span class="string">"first_name"</span>: <span class="string">"Jesse"</span>,
    <span class="string">"last_name"</span>: <span class="string">"Pinkman"</span>
 }
-</code></pre><p>To parse the JSON data, we need to define our structs,which are referred to as models.</p><pre><code><span class="comment">// MARK: - Class</span>
+</code></pre><p>To parse the JSON data, we need to define our structs, which are referred to as models.</p><pre><code><span class="comment">// MARK: - Class</span>
 <span class="keyword">struct</span> Class: <span class="type">Codable</span> {
-    <span class="keyword">let</span> class, teacher: <span class="type">String</span>
+    <span class="keyword">let</span> className: <span class="type">String</span> 
+    <span class="keyword">let</span> teacher: <span class="type">String</span>
     <span class="keyword">let</span> students: [<span class="type">Student</span>]
     <span class="keyword">let</span> place: <span class="type">String</span>
 }
@@ -48,7 +49,8 @@
 <span class="comment">// MARK: - Student</span>
 <span class="keyword">struct</span> Student: <span class="type">Codable</span> {
     <span class="keyword">let</span> id: <span class="type">Int</span>
-    <span class="keyword">let</span> firstName, lastName: <span class="type">String</span>
+    <span class="keyword">let</span> firstName: <span class="type">String</span>
+    <span class="keyword">let</span> lastName: <span class="type">String</span>
 }
 </code></pre><p>Our structs both conform to <code>Codable</code>, which is a protocol that allow us to decode JSON into our <code>Class</code>, and <code>Student</code> model types. Here's how you can write a generic function to handle this:</p><pre><code><span class="keyword">struct</span> DataManager {
 
@@ -61,6 +63,7 @@
      }
     
      <span class="keyword">let</span> decoder = <span class="type">JSONDecoder</span>()
+     decoder.<span class="property">keyDecodingStrategy</span> = .<span class="dotAccess">convertFromSnakeCase</span>
      <span class="keyword">do</span> {
         <span class="keyword">return try</span> decoder.<span class="call">decode</span>(<span class="type">T</span>.<span class="keyword">self</span>, from: data)
      } <span class="keyword">catch</span> {
